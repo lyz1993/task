@@ -1,0 +1,148 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.4.5/themes/gray/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.4.5/themes/icon.css">
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/jquery.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
+
+</head>
+<body>
+<div align="center">
+    <?php
+    $year = $this->year;
+    $month = $this->month;
+    ?>
+    <h2>
+        <select  id="year" style="width: 55px;height: 25px">
+            <?php
+            for($y=2015;$y<=2017;$y++)
+            {
+                if($y==$year)
+                {
+                    echo "<option selected = 'selected' value='".$y."'>".$y."</option>";
+                }else{
+                    echo "<option value='".$y."'>".$y."</option>";
+                }
+
+            }
+            ?>
+        </select>
+        年
+        <select  id="month" style="width: 40px;height: 25px" onchange="month()">
+            <?php
+            for($m=1;$m<=12;$m++)
+            {
+                if($m==$month)
+                {
+                    echo "<option selected = 'selected' value='".$m."'>".$m."</option>";
+                }else{
+                    echo "<option value='".$m."'>".$m."</option>";
+                }
+
+            }
+            ?>
+        </select>
+        月
+    </h2></div>
+<div align="center" style="margin-top: 10px">
+    <table border=1px style="BORDER-COLLAPSE: collapse" borderColor="#111111" cellSpacing="0" cellPadding="2" border="1">
+        <thead>
+        <tr>
+            <th field="Monday" width="80" align="center">星期一</th>
+            <th field="Tuesday" width="80" align="center">星期二</th>
+            <th field="Wednesday" width="80" align="center">星期三</th>
+            <th field="Thursday" width="80" align="center">星期四</th>
+            <th field="Friday" width="80" align="center">星期五</th>
+            <th field="Saturday" width="80" align="center">星期六</th>
+            <th field="Sunday" width="80" align="center">星期日</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <?php
+        $scheduleMessage = $this->scheduleMessage;
+        $firstday=date('N', strtotime($year."-".$month."-1"));
+        $c=1;
+        for($i=1;$i<$firstday;$i++)
+        {
+            if($i==1)
+            {
+                echo"<tr>";
+            }
+            echo"<td></td>";
+        }
+        for($firstday;$firstday<=7;$firstday++)
+        {
+            if($firstday==1)
+            {
+                echo"<tr>";
+            }
+            $a="0".$c;
+            echo "<td><div align='center'>".$a."<br />";
+            if(isset($scheduleMessage[$c-1]['staff']))
+            {
+                echo $scheduleMessage[$c-1]['staff'];
+            }else{
+                echo "&nbsp";
+            }
+            echo"</div></td>";
+            $c=$c+1;
+        }
+        echo"</tr>";
+
+        $monthdays = date('t',strtotime($year."-".$month));
+        for($c;$c<=$monthdays;$c++)
+        {
+            echo"<tr>";
+            for($b=1;$b<=7&&$c<=$monthdays;$b++)
+            {
+                if($c<10)
+                {
+                    $a="0".$c;
+                }else{
+                    $a=$c;
+                }
+                echo"<td><div align='center'> ".$a."<br />
+                ";
+                if(isset($scheduleMessage[$c-1]['staff']))
+                {
+                    echo $scheduleMessage[$c-1]['staff'];
+                }else{
+                    echo "&nbsp";
+                }
+                echo"</div></td>";
+                if($b != 7)
+                {
+                    $c=$c+1;
+                }
+                for($b;$b != 7 && $c>$monthdays;$b++)
+                {
+                    echo"<td></td>";
+                }
+            }
+            echo"</tr>";
+        }
+        ?>
+        </tbody>
+    </table>
+</div>
+</div>
+</body>
+</html>
+<script>
+    function month()
+    {
+        var month = $('#month').val();
+        if(month<10)
+        {
+            month = "0"+month;
+        }
+        var year = $('#year').val();
+
+        window.location.href="/inspection/schedulemessage?year="+year+"&&month="+month;
+    }
+</script>

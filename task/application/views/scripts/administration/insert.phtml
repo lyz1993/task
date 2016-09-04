@@ -1,0 +1,59 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.4.5/themes/gray/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.4.5/themes/icon.css">
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/jquery.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
+
+</head>
+
+<div>
+    <a href="/administration/kb" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">返回</a>
+</div>
+    <?php
+    $message = $this->message;
+    echo"
+        <div  class='easyui-panel' style='padding-bottom: 5px'>
+        <select id='type'>
+        <option>--请选择知识类型--</option>";
+    for($i=0;$i<count($message);$i++)
+    {
+        echo"<option value='".$message[$i]["type_id"]."'>".$message[$i]["type_name"]."</option>";
+    }
+        echo"</select>
+        <h3>问题</h3><textarea  style='vertical-align:top' id='question'></textarea><br />
+        <h3>解答</h3><textarea  style='vertical-align:top' id='answer'></textarea></div>";
+    echo'<a class="easyui-linkbutton" iconCls="icon-ok" onClick="submit()">提交</a>';
+    ?>
+</body>
+</html>
+<script>
+    function submit()
+    {
+        var type = $('#type').val();
+        var question = document.getElementById("question").value;
+        var answer = document.getElementById("answer").value;
+
+        $.ajax({ //调用jquery的ajax方法
+            type: "POST", //设置ajax方法提交数据的形式
+            data: {
+                'type': type,
+                'question': question,
+                'answer': answer
+            },
+            url: "/administration/insertkb",
+            success: function (msg) {
+                if(msg==1)
+                {
+                    window.location.href="/administration/kb";
+                }else{
+                    alert("提交失败");
+                }
+            }
+        })
+    }
+</script>

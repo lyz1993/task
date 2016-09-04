@@ -1,0 +1,78 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.4.5/themes/gray/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.4.5/themes/icon.css">
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/jquery.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
+
+</head>
+<body>
+<?php
+$message = $this->message;
+?>
+<div class="easyui-panel" style="margin-top: 20px;padding-top: 20px">
+    <div style="padding-left: 40%">
+        <table>
+            <tr style="height:30px">
+                <td>登录名</td>
+                <td><input id="user_name" type="text" style="width: 150px" value="<?php echo $message[0]['user_name']; ?>"></td>
+            </tr>
+            <tr style="height:30px">
+                <td>密码</td>
+                <td><input id="passwd" type="password" style="width: 150px"></td>
+            </tr>
+            <tr style="height:30px">
+                <td>用户名</td>
+                <td><input id="staff" type="text" style="width: 150px" value="<?php echo $message[0]['staff']; ?>"></td>
+            </tr>
+            <tr style="height:30px">
+                <td>电话</td>
+                <td><input id="phone" type="text" style="width: 150px" value="<?php echo $message[0]['phone']; ?>"></td>
+            </tr>
+            <tr style="height:30px">
+                <td>邮箱</td>
+                <td><input id="mail" type="text" style="width: 150px" value="<?php echo $message[0]['mail']; ?>"></td>
+            </tr>
+        </table>
+    </div>
+    <div align="center" style="margin-top: 5px;margin-bottom: 5px">
+        <a class="easyui-linkbutton" iconCls="icon-ok" onClick="submit()">提交</a>
+    </div>
+</div>
+
+</body>
+</html>
+<script>
+    function submit() {
+        var user_name = $('#user_name').val();
+        var passwd = $('#passwd').val();
+        var staff = $('#staff').val();
+        var phone = $('#phone').val();
+        var mail = $('#mail').val();
+
+        $.ajax({ //调用jquery的ajax方法
+                type: 'POST', //设置ajax方法提交数据的形式
+                data: {
+                    'user_id':<?php echo $message[0]['user_id']; ?>,
+                    'user_name': user_name,
+                    'passwd': passwd,
+                    'staff': staff,
+                    'phone': phone,
+                    'mail': mail
+                },
+                url: '/message/updatemessage',
+                success: function (msg) {
+                    if (msg != 1) {
+                        alert(msg);
+                    } else {
+                        window.location.reload();
+                    }
+                }
+            })
+        }
+
+</script>

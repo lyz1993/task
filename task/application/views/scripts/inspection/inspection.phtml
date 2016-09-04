@@ -1,0 +1,173 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.4.5/themes/gray/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.4.5/themes/icon.css">
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/jquery.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
+
+</head>
+<body>
+<div align="right" style="margin-top: 5px">
+    <a class="easyui-linkbutton"  onClick="submit()">提交</a>
+</div>
+<div align="center">
+<h1>山东省教育数据中心巡检表</h1>
+    <table width="30%">
+        <tr>
+            <td>巡检人：
+                <?php
+                $staff = $this->staff;
+                echo $staff;
+                ?></td>
+            <td>日期：<?php echo date('Y-m-d'); ?></td>
+        </tr>
+    </table>
+    <table border=1px style="BORDER-COLLAPSE: collapse" borderColor="#111111" cellSpacing="0" cellPadding="2" border="1">
+        <tr><td style="text-align: center" colspan="2">巡检内容</td><td style="text-align: center">巡检情况</td></tr>
+        <tr><td rowspan="5">UPS室</td>
+            <td>UPS</td>
+            <td style="width: 500px"><textarea id="UPS" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>电池组</td>
+            <td style="width: 500px"><textarea id="Battery" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>排风机</td>
+            <td style="width: 500px"><textarea id="Blower" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>配电柜</td>
+            <td style="width: 500px"><textarea id="Electric" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>空调</td>
+            <td style="width: 500px"><textarea id="airConditioner_UPS" style="height:20px;width: 100%"></textarea></td></tr>
+
+        <tr><td rowspan="3">消防系统</td>
+            <td>钢瓶间</td>
+            <td style="width: 500px"><textarea id="Cylinder" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>泄压阀</td>
+            <td style="width: 500px"><textarea id="PressureReliefValve" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>消防主机</td>
+            <td style="width: 500px"><textarea id="FireEngine" style="height:20px;width: 100%"></textarea></td></tr>
+
+        <tr><td rowspan="3">接入间</td>
+            <td>网络设备</td>
+            <td style="width: 500px"><textarea id="networkEquipment" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>安全设备</td>
+            <td style="width: 500px"><textarea id="safety" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>空调</td>
+            <td style="width: 500px"><textarea id="airConditioner_Access" style="height:20px;width: 100%"></textarea></td></tr>
+
+        <tr><td rowspan="2">监控室</td>
+            <td>门禁系统</td>
+            <td style="width: 500px"><textarea id="Access" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>视频监控</td>
+            <td style="width: 500px"><textarea id="Surveillance" style="height:20px;width: 100%"></textarea></td></tr>
+
+        <tr><td rowspan="12">主机房</td>
+            <td>空调</td>
+            <td style="width: 500px"><textarea id="airConditioner_Host" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>新风机</td>
+            <td style="width: 500px"><textarea id="PAU" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>ATS柜</td>
+            <td style="width: 500px"><textarea id="ATS" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>精密列头柜</td>
+            <td style="width: 500px"><textarea id="PrecisionColumnHeadCabinet" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>服务器</td>
+            <td style="width: 500px"><textarea id="Server" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>存储</td>
+            <td style="width: 530px"><textarea id="storager" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>Vmware</td>
+            <td style="width: 500px"><textarea id="Vmware" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>交换机</td>
+            <td style="width: 500px"><textarea id="Switch" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>Zabbix</td>
+            <td style="width: 500px"><textarea id="Zabbix" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>网管系统</td>
+            <td style="width: 500px"><textarea id="NetworkManagement" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>环控系统</td>
+            <td style="width: 500px"><textarea id="LoopControl" style="height:20px;width: 100%"></textarea></td></tr>
+        <tr><td>network</td>
+            <td style="width: 500px"><textarea id="network" style="height:20px;width: 100%"></textarea></td></tr>
+
+        <tr><td colspan="2">备注及其它</td><td><textarea id="Remarks" style="height:20px;width: 100%"></textarea></td></tr>
+        </table>
+</div>
+
+</body>
+</html>
+<script>
+    function submit()
+    {
+        var UPS =document.getElementById("UPS").value;
+        var Battery =document.getElementById("Battery").value;
+        var Blower =document.getElementById("Blower").value;
+        var Electric =document.getElementById("Electric").value;
+        var airConditioner_UPS =document.getElementById("airConditioner_UPS").value;
+        var Cylinder =document.getElementById("Cylinder").value;
+        var PressureReliefValve =document.getElementById("PressureReliefValve").value;
+        var FireEngine =document.getElementById("FireEngine").value;
+        var networkEquipment =document.getElementById("networkEquipment").value;
+        var safety =document.getElementById("safety").value;
+        var airConditioner_Access =document.getElementById("airConditioner_Access").value;
+        var Access =document.getElementById("Access").value;
+        var Surveillance =document.getElementById("Surveillance").value;
+        var airConditioner_Host =document.getElementById("airConditioner_Host").value;
+        var PAU =document.getElementById("PAU").value;
+        var ATS =document.getElementById("ATS").value;
+        var PrecisionColumnHeadCabinet =document.getElementById("PrecisionColumnHeadCabinet").value;
+        var Server =document.getElementById("Server").value;
+        var storager =document.getElementById("storager").value;
+        var Vmware =document.getElementById("Vmware").value;
+        var Switch =document.getElementById("Switch").value;
+        var zabbix =document.getElementById("Zabbix").value;
+        var NetworkManagement =document.getElementById("NetworkManagement").value;
+        var LoopControl =document.getElementById("LoopControl").value;
+        var network =document.getElementById("network").value;
+        var Remarks =document.getElementById("Remarks").value;
+
+        var data ={
+            'user_id': <?php
+                $user_id = $this->user_id;
+                echo $user_id;
+                ?>,
+            'UPS': UPS,
+            'Battery': Battery,
+            'Blower': Blower,
+            'Electric': Electric,
+            'airConditioner_UPS': airConditioner_UPS,
+            'Cylinder': Cylinder,
+            'PressureReliefValve': PressureReliefValve,
+            'FireEngine': FireEngine,
+            'networkEquipment': networkEquipment,
+            'safety': safety,
+            'airConditioner_Access': airConditioner_Access,
+            'Access': Access,
+            'Surveillance': Surveillance,
+            'airConditioner_Host': airConditioner_Host,
+            'PAU': PAU,
+            'ATS': ATS,
+            'PrecisionColumnHeadCabinet': PrecisionColumnHeadCabinet,
+            'Server': Server,
+            'storager': storager,
+            'Vmware': Vmware,
+            'Switch': Switch,
+            'zabbix': zabbix,
+            'NetworkManagement': NetworkManagement,
+            'LoopControl': LoopControl,
+            'network': network,
+            'Remarks': Remarks
+            };
+
+
+        $.ajax({ //调用jquery的ajax方法
+            type: "POST", //设置ajax方法提交数据的形式
+            data: {
+                'data': data
+            },
+            url: "/inspection/subinspection",
+            success: function () {
+                /*alert(msg);*/
+                window.location.href="/inspection/report";
+            }
+        })
+    }
+</script>

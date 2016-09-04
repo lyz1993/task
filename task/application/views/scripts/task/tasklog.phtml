@@ -1,0 +1,122 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.4.5/themes/gray/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.4.5/themes/icon.css">
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/jquery.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
+
+</head>
+<body>
+<?php
+$message = $this->message;
+?>
+<?php
+$f = $this->f;
+if(empty($f))
+{
+    echo'<div align="right" style="margin-top: 5px">
+    <a class="easyui-linkbutton" iconCls="icon-ok" onClick="submit()">提交</a>
+    <!--<a class="easyui-linkbutton" iconCls="icon-pencil" onClick="problem()">问题提出</a>-->
+    <div id="problem" style="width: 50%;display: none">
+        <textarea id="text" style="width: 100%"></textarea>
+    </div>
+</div>';
+}/*else{
+    echo'<div align="right" style="margin-top: 5px">
+    <a class="easyui-linkbutton"  onClick="word()">生成word</a>
+    </div>';
+}*/
+
+?>
+<div align="center">
+<h1>山东省教育数据中心任务记录单</h1>
+    <table width="49%">
+        <tr>
+            <td>日期：<?php echo $message[0]['date']; ?></td>
+            <td>编号：<?php echo $message[0]['task_id']; ?></td>
+        </tr>
+    </table>
+    <table border=1px style="BORDER-COLLAPSE: collapse" borderColor="#111111" cellSpacing="0" cellPadding="2" border="1">
+    <tr><td>任务时间</td><td><?php echo $message[0]['start_time']; ?></td>
+            <td>任务来源</td>
+            <?php
+            $check1='';
+            $check2='';
+            $check3='';
+            $check4='';
+            if($message[0]['event']=="巡检"){
+                $check1='checked="checked"';
+            }elseif($message[0]['event']=="用户报障"){
+                $check2='checked="checked"';
+            }elseif($message[0]['event']=="系统厂家"){
+                $check3='checked="checked"';
+            }elseif($message[0]['event']=="工作安排"){
+                $check4='checked="checked"';
+            }
+            echo'
+            <td colspan="4"><input type="checkbox" value="巡检" '.$check1.'>巡检
+                <input type="checkbox" value="用户报障" '.$check2.'>用户报障
+                <input type="checkbox" value="系统厂家" '.$check3.'>系统厂家
+                <input type="checkbox" value="工作安排" '.$check4.'>工作安排</td></tr>';
+            ?>
+        <tr style="height: 160px"><td>任务描述</td><td colspan="6"><?php echo $message[0]['task_describe']; ?></td></tr>
+        <tr style="height: 160px"><td>过程记录</td><td colspan="6"><?php echo $message[0]['process']; ?></td></tr>
+        <tr style="height: 160px"><td>结果</td><td colspan="6"><?php echo $message[0]['result']; ?></td></tr>
+        <tr style="height: 160px"><td>后续问题</td><td colspan="6"><?php echo $message[0]['follow_up']; ?></td></tr>
+        <tr style="height:50px"><td>完成时间</td><td colspan="2"><?php echo $message[0]['finish_time']; ?></td><td>协同处理人员</td><td colspan="3" style="width: 100px"><?php echo $message[0]['partner']; ?></td></tr>
+        <tr style="height:50px"><td>处理人签字</td><td colspan="2"><?php echo $message[0]['Huser']; ?></td><td>用户签字</td><td colspan="3" style="width: 100px"></td></tr>
+    </table>
+</div>
+
+</body>
+</html>
+<script>
+    function problem()
+    {
+        $('#problem').show();
+    }
+
+    function submit()
+    {
+        /*var problem = document.getElementById("text").value;*/
+
+        $.ajax({ //调用jquery的ajax方法
+            type: "POST", //设置ajax方法提交数据的形式
+            data: {
+                /*'problem': problem,*/
+                'task_id': <?php echo $message[0]['task_id']; ?>
+            },
+            url: "/task/checktask",
+            success: function (msg) {
+                if(msg){
+                    alert("提交成功");
+                }else{
+                    alert("提交失败");
+                }
+            }
+        })
+
+    }
+    function word()
+    {
+        $.ajax({ //调用jquery的ajax方法
+            type: "POST", //设置ajax方法提交数据的形式
+            data: {
+                'task_id': <?php echo $message[0]['task_id']; ?>
+            },
+            url: "/task/word",
+            success: function (msg) {
+                if(msg){
+                    alert("提交成功");
+                }else{
+                    alert("提交失败");
+                }
+            }
+        })
+
+    }
+</script>

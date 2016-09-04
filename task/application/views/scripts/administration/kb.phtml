@@ -1,0 +1,64 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.3.5/themes/gray/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.3.5/themes/icon.css">
+    <script type="text/javascript" src="/jquery-easyui-1.3.5/jquery.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.3.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.3.5/locale/easyui-lang-zh_CN.js"></script>
+
+</head>
+<body>
+<div id="tb">
+    <a href="/administration/insert" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true"/>添加</a>
+</div>
+<table id="tt"></table>
+</body>
+</html>
+<script>
+    var type;
+    $(function () {
+        $('#tt').datagrid({
+            fit: true,
+            fitColumns: true,
+            method: 'GET',
+            toolbar: '#tb',
+            url: '/administration/kbmessage',
+            pagination: true,
+            singleSelect: true,
+            pageSize : 10,
+            pageList : [5,10,15],
+            columns:[[
+                {field:'KB_id',title:'知识编号',width:100},
+                {field:'type_name',title:'知识类型',width:100},
+                {field:'task_id',title:'事件编号',width:100},
+                {field:'task_describe',title:'任务描述（问题）',width:100},
+                {field:'process',title:'任务过程（解答）',width:100},
+                {field:'user_id',title:'处理人员（添加人员）',width:100},
+                {field:'view',title:'查看',width:35,align:"center",
+                    formatter: function(value,row,index){
+                        var v = '<input type="button" href="#" value="查看" onclick="view('+row.KB_id+')">';
+                        return v;
+                    }
+                },
+                {field:'action',title:'操作',width:80,align:'center',
+                    formatter:function(value,row,index){
+                            var e = '<a href="#" onclick="editrow('+row.KB_id+')">编辑</a>';
+                            var d = '<a href="#" onclick="deleterow('+row.KB_id+')">删除</a>';
+                            return e;
+                    }
+                }
+            ]]
+        });
+    });
+    function editrow(id)
+    {
+        window.location.href="/administration/change?KB_id="+id;
+    }
+    function view(id)
+    {
+        window.location.href="/kb/view?id="+id+"&&f=0";
+    }
+</script>

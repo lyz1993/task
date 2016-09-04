@@ -1,0 +1,42 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.4.5/themes/gray/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.4.5/themes/icon.css">
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/jquery.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
+
+</head>
+<?php
+$message = $this->message;
+$f = $this->f;
+?>
+
+<div>
+    <a href="
+    <?php
+    if($f==0)
+    {
+        echo '/administration/kb';
+    }else{
+        echo '/kb/kb';
+    }
+    ?>
+    " class="easyui-linkbutton" data-options="iconCls:'icon-undo'">返回</a>
+</div>
+
+
+    <?php
+    echo"
+        <div  class='easyui-panel'>
+        <h3>任务描述</h3><br />".$message[0]['task_describe']."<br />
+        <h3>处理描述</h3><br />".$message[0]['process']."<br /></div>";
+    ?>
+
+
+
+</body>
+</html>

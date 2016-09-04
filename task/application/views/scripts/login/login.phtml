@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- 此时表示根据设备大小调整页面的显示宽度 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+<body bgcolor="#dcdcdc">
+<?php
+/*session_start();
+$_SESSION['enter']='1';
+*/?>
+<div align="center" style="height: 500px">
+    <div align="center" style="width: 25%;height: 72%;margin-top: 5%;background-color: white" >
+        <div style="padding-top: 10%"><img src="/images/logo.png"></div>
+            <div style="width: 70%">
+                <form action='/login/login' method="post" id="fm">
+                    <p align="left" style="padding-left: 10%">用户名</p>
+                    <input name="user_name" type="text" style="width:100%;height:10%">
+                    <p align="left" style="padding-left: 10%">密码</p>
+                    <input name="password" type="password" style="width:100%;height:10%">
+                    <br><br>
+                    <input name="remember" align="left" type="checkbox" value="1">记住密码
+                    <br><br>
+                    <input style="width: 100%;height:10%" type="submit" value="登录">
+                    <?php
+                    $error = $this->error;
+                    if(!empty($error)){
+                        echo "<font style='color: red'>用户名或密码错误！</font>";
+                    }
+                    ?>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

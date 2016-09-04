@@ -1,0 +1,105 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.4.5/themes/gray/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.4.5/themes/icon.css">
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/jquery.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
+
+    <script type="text/javascript">
+        function addtask() {
+            var event = $('#event').val();
+            var Huser = $('#Huser').val();
+            var type = $('#type').val();
+            var task_describe = document.getElementById("task_describe").value;
+            $.ajax({ //调用jquery的ajax方法
+                type: "POST", //设置ajax方法提交数据的形式
+                data: {
+                    'event': event,
+                    'Auser': <?php
+                                session_start();
+                                $staff = $_SESSION['user_id'];
+                                echo $staff;
+                                ?>,
+                    'Huser': Huser,
+                    'type': type,
+                    'task_describe': task_describe
+                },
+                url: "/task/addtask",
+                success: function (msg) {
+                    if(msg)
+                    {
+                        window.location.href="/task/register";
+                    }else{
+                        alert(msg);
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+
+<body>
+<?php
+$event = $this->event;
+$type = $this->type;
+$user = $this->user;
+?>
+<div style="height: 100%;width: 100%">
+<div class="easyui-panel">
+    <div style="margin-left: 5%;margin-top: 20px">
+        <lable>事件类别</lable>
+        <select id="event">
+            <option value=""></option>
+            <?php
+            for($i=0;$i<count($event);$i++)
+            {
+                echo"<option value=".$event[$i]['event_id'].">".$event[$i]['event_name']."</option>";
+            }
+            ?>
+        </select>
+        <br><br>
+        <lable>类&nbsp&nbsp&nbsp&nbsp别</lable>
+        <select id="type">
+            <option value=""></option>
+            <?php
+            for($i=0;$i<count($type);$i++)
+            {
+                echo"<option value=".$type[$i]['type_id'].">".$type[$i]['type_name']."</option>";
+            }
+            ?>
+        </select>
+        <br><br>
+        <lable>添加任务人员</lable>
+        <?php
+        $staff = $_SESSION['staff'];
+        echo $staff;
+        ?>
+        <br><br>
+        <lable>处理任务人员</lable>
+        <select id="Huser">
+            <option value=""></option>
+            <?php
+            for($i=0;$i<count($user);$i++)
+            {
+                if($user[$i]['staff']!=$staff)
+                {
+                    echo"<option value=".$user[$i]['user_id'].">".$user[$i]['staff']."</option>";
+                }
+                }
+            ?>
+        </select>
+        <br><br>
+        <lable>任务描述</lable>
+        <textarea id="task_describe" style="vertical-align:top;height: 200px;width: 90%" value="123"></textarea>
+    </div>
+    <div id="dlg-buttons" style="text-align: center;margin-top:20px;margin-bottom:20px">
+        <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="addtask()">提交</a>
+    </div>
+</div>
+</div>
+</body>
+</html>

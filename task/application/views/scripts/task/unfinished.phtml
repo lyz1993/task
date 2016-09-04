@@ -1,0 +1,122 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.3.5/themes/gray/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="/jquery-easyui-1.3.5/themes/icon.css">
+    <script type="text/javascript" src="/jquery-easyui-1.3.5/jquery.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.3.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.3.5/locale/easyui-lang-zh_CN.js"></script>
+
+</head>
+<body>
+<table id="tt"></table>
+</body>
+</html>
+<script>
+    $(function(){
+        $('#tt').datagrid({
+            fit: true,
+            fitColumns: true,
+            rownumbers: true,
+            method: 'GET',
+            toolbar: '#tb',
+            url: '/task/unfinishedmessage',
+            pagination: true,
+            singleSelect: true,
+            pageSize : 10,
+            pageList : [5,10,15],
+            columns:[[
+                {field:'event',title:'任务来源',width:30},
+                {field:'start_time',title:'开始时间',width:50},
+                {field:'type',title:'类别',width:30},
+                {field:'task_describe',title:'任务描述',width:150,
+                    formatter: function(value,row,index){
+                        var d="<input type='button' onclick='describe("+row.task_id+")' value='查看全部'>";
+                        return d+value;
+                    }
+                },
+                {field:'submit',title:'状态',width:50,
+                    formatter: function(value,row,index){
+                        if (row.submit==0){
+                            var s= "<input type='button' onclick='tasklog("+row.task_id+")' value='完成，填写任务记录单'>" +
+                                "<br>" +
+                                "<input type='button' onclick='following("+row.task_id+")' value='未完成，填写事件跟踪'>";
+                        }
+                        if (row.submit==1){
+                            var s= "任务记录单审核中...";
+                        }
+                        return s;
+                    }
+                },
+                {field:'access',title:'接受/拒绝',width:30,align:"center",
+                    formatter: function(value,row,index){
+                        if(value==0)
+                        {
+                            var a="<input type='button' onclick='access("+row.task_id+",0)' value='接受'>"+
+                                "&nbsp"+
+                                "<input type='button' onclick='access("+row.task_id+",1)' value='拒绝'>";
+                        }
+                        if(value==1)
+                        {
+                            var a="已接受";
+                        }
+                        if(value==2)
+                        {
+                            var a="已拒绝";
+                        }
+                        return a;
+                    }
+                }
+            ]]
+        });
+    });
+
+    function access(id,flag)
+    {
+        $.ajax({ //调用jquery的ajax方法
+            type: "POST", //设置ajax方法提交数据的形式
+            data: {
+                'id': id,
+                'flag' : flag
+            },
+            url: "/task/access",
+            success: function (msg) {
+                if(msg)
+                {
+                    window.location.reload();
+                }else
+                {
+                    alert(msg);
+                }
+            }
+        })
+    }
+    function tasklog(id)
+    {
+        window.location.href="/task/tasklogmessage?task_id="+id;
+    }
+    function following(id)
+    {
+        window.location.href="/task/following?task_id="+id;
+    }
+    function view(id)
+    {
+        window.location.href="/task/view?id="+id;
+    }
+    function describe(id)
+    {
+        $.ajax({ //调用jquery的ajax方法
+            type: "POST", //设置ajax方法提交数据的形式
+            data: {
+                'id': id
+            },
+            url: "/task/describe",
+            success: function (msg) {
+                alert(msg);
+
+            }
+        })
+    }
+</script>
